@@ -1,0 +1,51 @@
+SERVER_HOSTNAME = "aelidrysS"
+SERVER_IP       = "192.168.56.110"
+
+AGENT_HOSTNAME  = "aelidrysSW"
+AGENT_IP        = "192.168.56.111"
+
+K3S_TOKEN       = "super_secret_token"
+
+Vagrant.configure("2") do |config|
+
+  config.vm.box = "debian/bookworm64"
+
+  # shared provider defaults 
+  config.vm.provider "virtualbox" do |vb|
+    vb.cpus   = 1
+    vb.memory = 1024
+    # vb.linked_clone = true
+  end
+
+  # common provisioning (runs on every node)
+  config.vm.provision "shell", path: "scripts/common.sh"
+
+  # Server node
+  config.vm.define SERVER_HOSTNAME do |server|
+    server.vm.hostname = SERVER_HOSTNAME
+    server.vm.network "private_network", ip: SERVER_IP
+    server.vm.provision "shell",
+      path: "scripts/server.sh",
+      env: {
+        "NODE_IP"        => SERVER_IP,
+        "AGENT_IP"       => AGENT_IP,
+        "AGENT_HOSTNAME" => AGENT_HOSTNAME,
+        "TOKEN"          => K3S_TOKEN
+      }
+  end
+
+  # Agent (worker) node 
+  config.vm.define AGENT_HOSTNAME do |agent|
+    agent.vm.hostname = AGENT_HOSTNAME
+    agent.vm.network "private_network", ip: AGENT_IP
+    agent.vm.provision "shell",
+      path: "scripts/worker.sh",
+      env: {
+        "NODE_IP"         => AGENT_IP,
+        "SERVER_IP"       => SERVER_IP,
+        "SERVER_HOSTNAME" => SERVER_HOSTNAME,
+        "TOKEN"           => K3S_TOKEN
+      }
+  end
+
+end
