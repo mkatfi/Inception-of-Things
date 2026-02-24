@@ -1,18 +1,28 @@
+SERVER_IP = "192.168.56.110"
+SERVER_HOSTNAME = "aelidrysS"
+
 Vagrant.configure("2") do |config|
-  config.vm.define "aelidrysS" do |server|
-    server.vm.box = "debian/bookworm64"
-    server.vm.hostname = "aelidrysS"
-    server.vm.network "private_network", ip: "192.168.56.110"
+  config.vm.box = "debian/bookworm64"
+  config.vm.hostname = SERVER_HOSTNAME
+  config.vm.network "private_network", ip: SERVER_IP
 
-    server.vm.provider "virtualbox" do |vb|
-      vb.memory = 1024
-      vb.cpus = 1
-    end
-
-    server.vm.provision "shell", inline: <<-SHELL
-      apt-get update -y
-      curl -sfL https://get.k3s.io | sh -
-      chmod 644 /etc/rancher/k3s/k3s.yaml
-    SHELL
+  config.vm.provider "virtualbox" do |vb|
+    vb.memory = 2048
+    vb.cpus = 2
   end
+
+  # Install K3s
+  config.vm.provision "shell",
+    path: "scripts/install_k3s.sh",
+    env: { "NODE_IP" => SERVER_IP }
+
+  # Wait until K3s is ready before applying manifests
+  config.vm.provision "shell", inline: <<-SHELL
+    echo "⏳ Waiting for K3s to be ready..."
+    until kubectl get nodes >/dev/null 2>&1; do
+      sleep 5
+    done
+
+    kubectl apply -f /vagrant/confs
+  SHELL
 end
