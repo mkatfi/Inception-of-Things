@@ -6,16 +6,15 @@ if [ -z "${NODE_IP:-}" ]; then
   exit 1
 fi
 
+echo " Installing dependencies..."
+apt-get update -qq && apt-get install -y -qq curl >/dev/null
+
 echo "🚀 Installing K3s..."
 
 curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="server \
   --node-ip=${NODE_IP} \
   --write-kubeconfig-mode=644" sh -
 
-echo ">>>> Waiting for node..."
-until kubectl get node >/dev/null 2>&1; do
-  sleep 5
-done
 
 # Useful alias
 echo "alias k='kubectl'" >> /home/vagrant/.bashrc
