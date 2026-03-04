@@ -17,7 +17,7 @@ curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="server \
 
 
 # Useful alias
-echo "alias k='kubectl'" >> /home/vagrant/.bashrc
+echo "alias k='sudo kubectl'" >> /home/vagrant/.bashrc
 
 # Host entries for internal testing
 echo "${NODE_IP} app1.com" >> /etc/hosts
