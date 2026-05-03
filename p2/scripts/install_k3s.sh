@@ -9,7 +9,7 @@ fi
 echo " Installing dependencies..."
 apt-get update -qq && apt-get install -y -qq curl >/dev/null
 
-echo "🚀 Installing K3s..."
+echo ">>>---- Installing K3s ----<<<<"
 
 curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="server \
   --node-ip=${NODE_IP} \
@@ -24,4 +24,4 @@ echo "${NODE_IP} app1.com" >> /etc/hosts
 echo "${NODE_IP} app2.com" >> /etc/hosts
 echo "${NODE_IP} app3.com" >> /etc/hosts
 
-echo "✅ >>>> K3s installed"
+echo "** >>>> K3s installed <<<<< **"
