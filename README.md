@@ -28,16 +28,16 @@ The project is designed for developers transitioning from basic system administr
 ## 🧱 Architecture at a Glance
 
 ```
-┌─────────────────────────────┐   ┌─────────────────────────────┐   ┌─────────────────────────────┐
-│           Part 1            │   │           Part 2            │   │           Part 3            │
-│      K3s + Vagrant (VMs)    │   │   K3s + Ingress (1 VM)      │   │     K3d + Argo CD (Docker)  │
-│                             │   │                             │   │                             │
-│  [login]S   → Server/Master │   │  app1.com  → App 1          │   │  Namespace: argocd          │
-│  192.168.56.110             │   │  app2.com  → App 2 (x3 pods)│   │  Namespace: dev             │
-│                             │   │  * → App 3 (default)        │   │  GitOps sync from GitHub    │
-│  [login]SW  → Agent/Worker  │   │  192.168.56.110             │   │  App versions: v1 → v2      │
-│  192.168.56.111             │   │                             │   │                             │
-└─────────────────────────────┘   └─────────────────────────────┘   └─────────────────────────────┘
+┌─────────────────────────────┐ ┌─────────────────────────────┐ ┌─────────────────────────────┐
+│           Part 1            │ │           Part 2            │ │           Part 3            │
+│      K3s + Vagrant (VMs)    │ │   K3s + Ingress (1 VM)      │ │     K3d + Argo CD (Docker)  │
+│                             │ │                             │ │                             │
+│  [login]S   → Server/Master │ │  app1.com  → App 1          │ │  Namespace: argocd          │
+│  192.168.56.110             │ │  app2.com  → App 2 (x3 pods)│ │  Namespace: dev             │
+│                             │ │  * → App 3 (default)        │ │  GitOps sync from GitHub    │
+│  [login]SW  → Agent/Worker  │ │  192.168.56.110             │ │  App versions: v1 → v2      │
+│  192.168.56.111             │ │                             │ │                             │
+└─────────────────────────────┘ └─────────────────────────────┘ └─────────────────────────────┘
 ```
 
 ---
