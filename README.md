@@ -48,16 +48,18 @@ The project is designed for developers transitioning from basic system administr
 Inception-of-Things/
 ├── p1/                 # K3s + Vagrant: two-node cluster (server + agent)
 │   ├── Vagrantfile
-│   ├── scripts/
-│   └── confs/
 ├── p2/                 # K3s + Ingress: three applications on one VM
 │   ├── Vagrantfile
 │   ├── scripts/
-│   └── confs/
+│   ├── confs/
+│   └── Vagrantfile
 ├── p3/                 # K3d + Argo CD: GitOps continuous delivery
 │   ├── scripts/
 │   └── confs/
-├── bonus/              # GitLab integration (optional)
+├── bonus/ # GitLab integration (optional)
+│   ├── Vagrantfile
+│   ├── scripts/
+│   └── confs/
 └── README.md
 ```
 
@@ -196,9 +198,11 @@ kubectl get pods -n dev
 
 ---
 
-## 👤 Author
+## 👤 Team
 
-**[Your Name]** — School 42 / 1337 student
+**mel-garr** — School 42 / 1337 student
+Project: *Inception-of-Things*
+**aelidrys** — School 42 / 1337 student
 Project: *Inception-of-Things*
 
 ---
